@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel - Kōhi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e8e8e8;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding-top: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 300;
+      color: #d4a574;
+      letter-spacing: 0.1em;
+    }
+
+    .logout-btn {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.875rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      background-color: transparent;
+      color: #9a9a9a;
+      border: 1px solid #2a2a2a;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      border-color: #d4a574;
+      color: #d4a574;
+    }
+
+    .greeting {
+      font-size: 1.75rem;
+      color: #e8e8e8;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+
+    .info-text {
+      color: #9a9a9a;
+      margin-bottom: 2.5rem;
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      color: #9a9a9a;
+      margin-bottom: 1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .position-display {
+      font-size: 3rem;
+      color: #d4a574;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+
+    .position-context {
+      font-size: 1rem;
+      color: #b8b8b8;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-container {
+      background-color: #0a0a0a;
+      border-radius: 2px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #d4a574, #e8ba8a);
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+
+    .qr-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .qr-placeholder {
+      width: 200px;
+      height: 200px;
+      background-color: #0a0a0a;
+      border: 2px solid #2a2a2a;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: #d4a574;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      font-family: 'Courier New', monospace;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #9a9a9a;
+    }
+
+    .error-message {
+      padding: 1rem;
+      background-color: rgba(220, 100, 100, 0.15);
+      border: 1px solid #dc6464;
+      color: #dc6464;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .position-display {
+        font-size: 2.5rem;
+      }
+
+      .qr-placeholder {
+        width: 150px;
+        height: 150px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Kōhi</h1>
+      <button class="logout-btn" id="logoutBtn">Cerrar sesión</button>
+    </header>
+
+    <div id="content" class="loading">
+      Cargando...
+    </div>
+  </div>
+
+  <script>
+    const contentDiv = document.getElementById('content');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    function showError(message) {
+      contentDiv.innerHTML = `
+        <div class="error-message">${message}</div>
+        <a href="/login.html" class="logout-btn" style="display: block; text-align: center; text-decoration: none;">Ir a iniciar sesión</a>
+      `;
+    }
+
+    async function loadUserData() {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+            return;
+          }
+          throw new Error('Error al cargar los datos');
+        }
+
+        const data = await response.json();
+
+        const progressPercentage = ((data.totalUsers - data.position + 1) / data.totalUsers) * 100;
+
+        contentDiv.innerHTML = `
+          <div class="greeting">Hola, ${data.name}</div>
+          <p class="info-text">Bienvenido a la lista de espera de Kōhi</p>
+
+          <div class="card">
+            <div class="card-title">Tu posición en la lista</div>
+            <div class="position-display">#${data.position}</div>
+            <div class="position-context">Eres el #${data.position} de ${data.totalUsers} en la lista</div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: ${progressPercentage}%"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Tu código de acceso</div>
+            <div class="qr-container">
+              <div class="qr-placeholder">QR-${String(data.position).padStart(6, '0')}</div>
+            </div>
+          </div>
+        `;
+
+      } catch (error) {
+        showError(error.message);
+      }
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    });
+
+    loadUserData();
+  </script>
+</body>
+</html>
