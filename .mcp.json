@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "env": {}
+    },
+    "sqlite": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@database-mcp/sqlite",
+        "--dsn",
+        "/Users/lemon-miguel/Desktop/IA/Udemy/mcp/proyecto_1/kohi.db",
+        "--write"
+      ],
+      "env": {}
+    }
+  }
+}
