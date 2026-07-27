@@ -1,0 +1,53 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx -y @playwright/mcp@latest --version)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_evaluate",
+      "Bash(gh:*)",
+      "Bash(git checkout:*)",
+      "Bash(unzip:*)",
+      "Bash(grep:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(npm search:*)",
+      "Bash(npm install:*)",
+      "Bash(mcp-sqlite:*)",
+      "Bash(npm info:*)",
+      "Bash(tree:*)",
+      "Bash(git branch:*)",
+      "Bash(git rm:*)",
+      "WebSearch",
+      "Bash(node --version:*)",
+      "Bash(npx --version)",
+      "Bash(npx:*)",
+      "Bash(uvx:*)",
+      "Bash(sqlite3:*)",
+      "Bash(ls:*)",
+      "Bash(npm view:*)",
+      "Bash(claude mcp)",
+      "Bash(claude mcp list:*)",
+      "Bash(claude mcp get:*)",
+      "mcp__sqlite__execute_sql",
+      "mcp__sqlite__search_objects",
+      "Bash(test:*)",
+      "Bash(npm init:*)",
+      "Bash(node init-db.js:*)",
+      "Bash(curl:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODUxNTUwNDcsImV4cCI6MTc4NTc1OTg0N30.k9LzCtz4Y8-qeFhsxREOyHKIvlF6gaC41w4c-Slcr9M\")",
+      "Bash(pkill:*)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_type",
+      "Bash(node upload-to-github.js)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "playwright"
+  ]
+}
