@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "sqlite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "/Users/lemon-miguel/Desktop/IA/Udemy/mcp/proyecto_1/kohi.db"
+      ],
+      "description": "SQLite database for Kōhi waitlist"
+    }
+  }
+}
