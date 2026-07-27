@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Kōhi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e8e8e8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 450px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #d4a574;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #9a9a9a;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-weight: 300;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      color: #b8b8b8;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 2px;
+      color: #e8e8e8;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #d4a574;
+      background-color: #222;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 400;
+      background-color: #d4a574;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .btn:hover:not(:disabled) {
+      background-color: #e8ba8a;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 2px;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .message.success {
+      background-color: rgba(212, 165, 116, 0.15);
+      border: 1px solid #d4a574;
+      color: #d4a574;
+    }
+
+    .message.error {
+      background-color: rgba(220, 100, 100, 0.15);
+      border: 1px solid #dc6464;
+      color: #dc6464;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #9a9a9a;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: #d4a574;
+    }
+
+    .success-container {
+      display: none;
+      text-align: center;
+    }
+
+    .success-container.active {
+      display: block;
+    }
+
+    .success-container h2 {
+      font-size: 1.5rem;
+      color: #d4a574;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .success-container .position {
+      font-size: 3rem;
+      color: #e8e8e8;
+      margin: 1.5rem 0;
+      font-weight: 400;
+    }
+
+    .success-container .continue-btn {
+      margin-top: 2rem;
+    }
+
+    .form-container.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kōhi</h1>
+    <p class="subtitle">Únete a la lista de espera</p>
+
+    <div id="message"></div>
+
+    <div class="form-container" id="formContainer">
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" required minlength="2">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required minlength="8">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar contraseña</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8">
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">Registrarse</button>
+      </form>
+
+      <a href="/" class="back-link">← Volver al inicio</a>
+    </div>
+
+    <div class="success-container" id="successContainer">
+      <h2>¡Estás en la lista!</h2>
+      <p>Tu posición:</p>
+      <div class="position" id="position">#—</div>
+      <a href="/dashboard.html" class="btn continue-btn">Continuar al panel</a>
+      <a href="/" class="back-link">← Volver al inicio</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+    const formContainer = document.getElementById('formContainer');
+    const successContainer = document.getElementById('successContainer');
+    const positionDisplay = document.getElementById('position');
+
+    function showMessage(text, type) {
+      messageDiv.className = `message ${type}`;
+      messageDiv.textContent = text;
+    }
+
+    function clearMessage() {
+      messageDiv.className = '';
+      messageDiv.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearMessage();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        showMessage('Las contraseñas no coinciden', 'error');
+        return;
+      }
+
+      if (password.length < 8) {
+        showMessage('La contraseña debe tener al menos 8 caracteres', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Registrando...';
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Error al registrarse');
+        }
+
+        localStorage.setItem('token', data.token);
+
+        formContainer.classList.add('hidden');
+        positionDisplay.textContent = `#${data.position}`;
+        successContainer.classList.add('active');
+
+      } catch (error) {
+        showMessage(error.message, 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Registrarse';
+      }
+    });
+  </script>
+</body>
+</html>
